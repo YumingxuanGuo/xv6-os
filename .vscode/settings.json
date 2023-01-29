@@ -1,0 +1,10 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+      "user.h": "c",
+      "stat.h": "c",
+      "types.h": "c",
+      "typeinfo": "c"
+    },
+    "editor.tabSize": 2
+}

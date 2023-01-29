@@ -302,6 +302,9 @@ fork(void)
   // Cause fork to return 0 in the child.
   np->trapframe->a0 = 0;
 
+  // Lab 2, System call tracing: copy trace mask
+  np->trace_mask = p->trace_mask;
+
   // increment reference counts on open file descriptors.
   for(i = 0; i < NOFILE; i++)
     if(p->ofile[i])
@@ -680,4 +683,20 @@ procdump(void)
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
   }
+}
+
+uint64
+get_num_unused_process()
+{
+  int n = 0;
+  acquire(&pid_lock);
+  for (int i = 0; i < NPROC; i++) {
+    acquire(&proc[i].lock);
+    if (proc[i].state != UNUSED) {
+      n++;
+    }
+    release(&proc[i].lock);
+  }
+  release(&pid_lock);
+  return n;
 }
